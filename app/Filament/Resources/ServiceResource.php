@@ -8,11 +8,13 @@ use App\Models\Service;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
+use Filament\Tables\Columns\ToggleColumn;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ServiceResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,6 +25,7 @@ class ServiceResource extends Resource
     protected static ?string $model = Service::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
+    protected static ?string $navigationGroup = "Service Management";
 
     public static function form(Form $form): Form
     {
@@ -33,9 +36,20 @@ class ServiceResource extends Resource
             ])
             ->schema([
                 TextInput::make('title'),
-                RichEditor::make('detail'),
+                TextInput::make('solution'),
+                RichEditor::make('short_detail'),
+                RichEditor::make('detail')->label('Long Details'),
+                FileUpload::make('service_icon')
+                    ->directory('services'),
                 FileUpload::make('service_image')
-                    ->directory('services')
+                    ->directory('services'),
+                Repeater::make('steps')
+                    ->schema([
+                        TextInput::make('step_icons')->required()->label("Step Icon"),
+                        TextInput::make('step_name')->required(),
+                        TextInput::make('step_detail'),
+
+                    ])->defaultItems(1)
 
 
             ]);
@@ -45,9 +59,11 @@ class ServiceResource extends Resource
     {
         return $table
             ->columns([
-                ImageColumn::make('service_image'),
-                TextColumn::make('title'),
-               
+                ImageColumn::make('service_image')->size(80)->circular(),
+                TextColumn::make('title')->searchable(),
+                TextColumn::make('short_detail')->html()->limit(40),
+                ToggleColumn::make('is_featured')->label('Featured'),  
+
             ])
             ->filters([
                 //
@@ -78,8 +94,8 @@ class ServiceResource extends Resource
     {
         return [
             'index' => Pages\ListServices::route('/'),
-            // 'create' => Pages\CreateService::route('/create'),
-            // 'edit' => Pages\EditService::route('/{record}/edit'),
+            'create' => Pages\CreateService::route('/create'),
+            'edit' => Pages\EditService::route('/{record}/edit'),
         ];
     }
 }

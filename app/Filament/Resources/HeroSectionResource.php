@@ -11,6 +11,7 @@ use Filament\Resources\Resource;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
+use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -23,6 +24,7 @@ class HeroSectionResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
     protected static ?string $label = 'My Hero Section';
+    
 
     public static function form(Form $form): Form
     {
@@ -41,11 +43,11 @@ class HeroSectionResource extends Resource
                     ->schema([
                         TextInput::make('project')->required(),
                     ])
-                ->columnSpan([
-                    'sm' => 2,
-                    'xl' => 2,
+                    ->columnSpan([
+                        'sm' => 2,
+                        'xl' => 2,
 
-                ]),
+                    ]),
                 FileUpload::make('featured_img')
                     ->directory('uploads')
                     ->preserveFilenames()->columnSpan([
@@ -60,6 +62,7 @@ class HeroSectionResource extends Resource
     {
         return $table
             ->columns([
+            ImageColumn::make('featured_img')->size(80)->circular(),
                 TextColumn::make('name'),
                 TextColumn::make('title'),
                 TextColumn::make('expertise'),

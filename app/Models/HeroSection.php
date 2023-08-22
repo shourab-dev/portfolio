@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class HeroSection extends Model
 {
@@ -13,4 +14,16 @@ class HeroSection extends Model
 
 
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        /** @var Model $model */
+        static::updating(function ($model) {
+            if ($model->isDirty('featured_img') && ($model->getOriginal('featured_img') !== null)) {
+                Storage::disk('public')->delete($model->getOriginal('featured_img'));
+            }
+        });
+    }
 }
