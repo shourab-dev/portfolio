@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\AdditionService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,6 +15,11 @@ class Service extends Model
     protected $casts = [
         'steps' => "array"
     ];
+
+    function additionServices()
+    {
+        return $this->belongsToMany(AdditionService::class);
+    }
 
     protected static function boot()
     {
