@@ -10,6 +10,7 @@ use App\Models\AdditionService;
 use Filament\Resources\Resource;
 use App\Models\AdditionalService;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\ImageColumn;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -34,6 +35,7 @@ class AdditionalServiceResource extends Resource
                 "xl" => 1
             ])
             ->schema([
+                TextInput::make('title'),
                 FileUpload::make('additional_img')
                     ->directory('services'),
                 RichEditor::make('additional_info')->label('Details'),

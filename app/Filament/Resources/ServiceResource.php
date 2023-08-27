@@ -8,6 +8,7 @@ use App\Models\Service;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Repeater;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\TextInput;
@@ -19,6 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\ServiceResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\ServiceResource\RelationManagers;
+use App\Filament\Resources\ServiceResource\RelationManagers\AdditionServicesRelationManager;
 
 class ServiceResource extends Resource
 {
@@ -43,6 +45,14 @@ class ServiceResource extends Resource
                     ->directory('services'),
                 FileUpload::make('service_image')
                     ->directory('services'),
+                Select::make('addition_service_id')
+                    ->relationship('additionServices', 'additional_info')->allowHtml()->multiple()
+                    ->createOptionForm([
+                        TextInput::make('title'),
+                        RichEditor::make('additional_info')->label('Long Details'),
+                        FileUpload::make('additional_img')
+                            ->directory('services'),
+                    ]),
                 Repeater::make('steps')
                     ->schema([
                         TextInput::make('step_icons')->required()->label("Step Icon"),
@@ -62,7 +72,7 @@ class ServiceResource extends Resource
                 ImageColumn::make('service_image')->size(80)->circular(),
                 TextColumn::make('title')->searchable(),
                 TextColumn::make('short_detail')->html()->limit(40),
-                ToggleColumn::make('is_featured')->label('Featured'),  
+                ToggleColumn::make('is_featured')->label('Featured'),
 
             ])
             ->filters([
@@ -86,7 +96,7 @@ class ServiceResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            // AdditionServicesRelationManager::class,
         ];
     }
 
