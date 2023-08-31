@@ -25,6 +25,7 @@ use App\Filament\Resources\ServiceResource\RelationManagers\AdditionServicesRela
 class ServiceResource extends Resource
 {
     protected static ?string $model = Service::class;
+    protected static ?int $navigationSort = 1;
 
     protected static ?string $navigationIcon = 'heroicon-o-tag';
     protected static ?string $navigationGroup = "Service Management";

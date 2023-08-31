@@ -21,6 +21,7 @@ use App\Filament\Resources\HeroSectionResource\RelationManagers;
 class HeroSectionResource extends Resource
 {
     protected static ?string $model = HeroSection::class;
+    protected static ?int $navigationSort = 2;
 
     protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
     protected static ?string $label = 'My Hero Section';

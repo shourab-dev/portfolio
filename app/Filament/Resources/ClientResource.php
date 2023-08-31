@@ -20,8 +20,9 @@ use App\Filament\Resources\ClientResource\RelationManagers;
 class ClientResource extends Resource
 {
     protected static ?string $model = Client::class;
+    protected static ?int $navigationSort = 4;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
 
     public static function form(Form $form): Form
     {
