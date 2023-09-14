@@ -39,6 +39,7 @@ class HeroSectionResource extends Resource
                 TextInput::make('name'),
                 TextInput::make('title'),
                 TextInput::make('expertise'),
+                TextInput::make('experience'),
                 TextInput::make('total_clients'),
                 Repeater::make('featured_work')
                     ->schema([

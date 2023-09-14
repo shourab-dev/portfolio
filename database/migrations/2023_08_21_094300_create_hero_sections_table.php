@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('expertise')->nullable();
             $table->string('total_clients')->nullable();
             $table->json('featured_work')->nullable();
-            
+            $table->string('experience')->default('3 years');
             $table->string('featured_img')->nullable();
             $table->timestamps();
         });
